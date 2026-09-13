@@ -1,4 +1,4 @@
-# NS200 CDI R8 (v8.1.0) — Modern Android Tuning, Telemetry, Modular Hardware & OTA Suite
+# NS200 CDI R8 (v8.3.1) — Modern Android Tuning, Telemetry, Modular Hardware & OTA Suite
 
 Aplikasi Android kendali terpadu untuk unit pengapian **CDI Programmable NS200-CDI-R8** (Bajaj Pulsar 200 DTS-i & Modifikasi Dual/Triple Spark). Menggabungkan kokpit telemetri balap gaya MoTeC, pemetaan kurva pengapian 4-slot dinamis, kalibrasi strobo pulser TDC, mode pembelajaran kurva asli (**OEM Learn Mode**), sistem pengunggah firmware nirkabel (**BLE OTA Firmware Uploader**), alur aktivasi mandiri aman (**Safe DIY Mode**), katalog modul jadi pasaran (*Commercial Off-the-Shelf Drop-in Modules*), bengkel panduan kabel interaktif, diagnostik paket data biner BLE, serta simulator akustik mesin knalpot multi-silinder (*Live Audio Engine Test Bench*).
 
@@ -8,7 +8,7 @@ Mendukung Arsitektur Lintas Platform (*Dual-Platform*): [**WeAct STM32WB55**](ht
 
 ## 📋 Daftar Isi
 1. [Fitur Utama](#-fitur-utama)
-2. [Pembaruan Besar Firmware R8 & Aplikasi v8.1](#-pembaruan-besar-firmware-r8--aplikasi-v81)
+2. [Pembaruan Besar Firmware R8 & Aplikasi v8.3.1](#-pembaruan-besar-firmware-r8--aplikasi-v831)
 3. [Katalog & Panduan Modul Siap Pakai di Pasaran (Drop-In Modular Upgrade)](#-katalog--panduan-modul-siap-pakai-di-pasaran-drop-in-modular-upgrade)
 4. [Arsitektur & Tumpukan Teknologi](#-arsitektur--tumpukan-teknologi)
 5. [Detail Modul & Layar](#-detail-modul--layar)
@@ -48,9 +48,9 @@ Mendukung Arsitektur Lintas Platform (*Dual-Platform*): [**WeAct STM32WB55**](ht
 
 ---
 
-## ⚡ Pembaruan Besar Firmware R8 & Aplikasi v8.1
+## ⚡ Pembaruan Besar Firmware R8 & Aplikasi v8.3.1
 
-| Fitur | Firmware R7 Lama | Firmware R8 / Aplikasi v8.1 Baru |
+| Fitur | Firmware R7 Lama | Firmware R8 / Aplikasi v8.3.1 Baru |
 |---|---|---|
 | **Alur Akuisisi Timing** | Wajib strobo manual / timing light tanda T | **OEM Learn Pasif**: Rekam kurva CDI OEM langsung via Input MCU. |
 | **Pilihan Perakitan Hardware** | Wajib solder puluhan komponen diskrit di perfboard | **Drop-in Modular Ready**: Mendukung modul jadi pasaran (Modul PC817 4-ch, Modul Buck MP1584EN, Modul Boost ZVS HV 45-390V). |
@@ -71,7 +71,7 @@ Untuk mengurangi kerumitan wiring kabel dan solder-menyolder komponen diskrit, s
 
 ### Ringkasan Blok Fungsi & Modul Pengganti
 
-> **FILOSOFI MODULAR v8.1**: Rekomendasi utama berfokus pada **2 MODUL JADI PASARAN (NOL PCB CUSTOM)** yang memangkas perakitan paling rumit, sementara blok yang kritis tetap mempertahankan performa komponen teruji.
+> **FILOSOFI MODULAR R8**: Rekomendasi utama berfokus pada **2 MODUL JADI PASARAN (NOL PCB CUSTOM)** yang memangkas perakitan paling rumit, sementara blok yang kritis tetap mempertahankan performa komponen teruji.
 
 | Blok Fungsi CDI | Status Rekomendasi | Modul Pasaran Siap Pakai | Estimasi Harga | Alasan Teknis & Keuntungan Utama |
 |---|---|---|---|---|
@@ -400,22 +400,6 @@ Menu **Pinout MCU** dalam aplikasi menyediakan visualisasi ganda (**Mode Tabel 2
 
 ## 📝 Catatan Rilis (Changelog)
 
-### Versi 8.2.0 (Penyempurnaan UI Header & Visualisasi Dinamis Dual-Platform ESP32/STM32)
-- **Header Top Bar Bersih & Terstruktur Rapi**:
-  - Menghapus chip selector platform MCU redundan dan badge PCB dari header atas aplikasi agar layout tidak sesak dan teratur rapi.
-  - Memfokuskan pemilihan platform secara terarah langsung di dalam menu Wiring Workshop & Setup.
-- **Tombol KONEK & DEMO Bebas Tergenjet**:
-  - Menerapkan batasan lebar minimum (`defaultMinSize(minWidth = 72.dp)`), padding seimbang, dan penonaktifan pembungkusan kata (`softWrap = false`, `maxLines = 1`) sehingga tombol **KONEK** / **PUTUS** / **SCAN** tidak akan terlipat secara vertikal.
-  - Penataan status koneksi ringkas: `ONLINE`, `OFFLINE`, `SIMULASI DEMO`, `MEMINDAI...`, atau `MENGHUBUNGKAN...` (tanpa teks panjang yang memakan ruang).
-- **Visualisasi Hardware Realistis ESP32 (`RealisticEsp32Board`)**:
-  - Menghadirkan visualisasi board 30-pin ESP32-WROOM-32 DevKit V1 yang realistis (Micro-USB/CP2102, pelat metal shielding can RF Espressif, antena tembaga meander, tombol tactile EN & BOOT, dan pinout GPIO autentik).
-- **Konsistensi Visualisasi Wiring & Diagram Simulator Lintas Platform**:
-  - Visualizer skema wiring per langkah (`StepWiringVisualCanvas`) dan simulator pcb kumulatif (`FullCumulativeCircuitSimulator`) kini berganti secara instan dan konsisten mengikuti platform yang dipilih:
-    - **STM32**: Menggunakan `RealisticWeActBoard` dengan pinout STM32WB55 (PA0 pulser, PA1/PA2 gate, PA4 TPS, PB0 VBAT, dll.) dan komparator pulser LM339.
-    - **ESP32**: Menggunakan `RealisticEsp32Board` dengan pinout ESP32 (GPIO4 pulser via PC817 opto, GPIO25 center gate, GPIO26 side gate, GPIO36/VP TPS ADC1_CH0, GPIO39/VN Temp ADC1_CH3, GPIO33 VBAT ADC1_CH5, dll.).
-- **Label Platform Ringkas & Jelas**:
-  - Seluruh antarmuka beralih ke penamaan ringkas "STM32" atau "ESP32" tanpa teks panjang yang memecah baris.
-
 ### Versi 8.3.1 (Perapihan Total Diagram Wiring & Kesiapan Produksi Dual-Platform STM32 & ESP32)
 - **Standardisasi Simbol Panah Diagram Wiring (`>`)**:
   - Mengganti seluruh karakter panah visual grafik (`▶`) yang rentan merusak lebar kolom dan menyebabkan teks menyebar/berantakan di layar kecil dengan simbol ASCII panah standar `>` (misalnya: `Kabel J1.12 > Resistor 47k > PC817 Pin 1`).
@@ -464,6 +448,22 @@ Menu **Pinout MCU** dalam aplikasi menyediakan visualisasi ganda (**Mode Tabel 2
   - Mengetuk pin manapun pada tabel atau board fisik akan menampilkan kartu detail fungsi CDI NS200, jalur sirkuit lengkap, status proteksi, dan peringatan isolasi optik 3.3V secara instan.
 - **Filter Fungsional Terpadu**:
   - Filter interaktif universal untuk kedua platform: `SEMUA`, `PULSER`, `GATE`, `OEM_LEARN`, `ADC/SENSOR`, `CHARGER`, `KRITIS`, serta filter fisik header.
+
+### Versi 8.2.1 (Penyempurnaan UI Header & Visualisasi Dinamis Dual-Platform ESP32/STM32)
+- **Header Top Bar Bersih & Terstruktur Rapi**:
+  - Menghapus chip selector platform MCU redundan dan badge PCB dari header atas aplikasi agar layout tidak sesak dan teratur rapi.
+  - Memfokuskan pemilihan platform secara terarah langsung di dalam menu Wiring Workshop & Setup.
+- **Tombol KONEK & DEMO Bebas Tergenjet**:
+  - Menerapkan batasan lebar minimum (`defaultMinSize(minWidth = 72.dp)`), padding seimbang, dan penonaktifan pembungkusan kata (`softWrap = false`, `maxLines = 1`) sehingga tombol **KONEK** / **PUTUS** / **SCAN** tidak akan terlipat secara vertikal.
+  - Penataan status koneksi ringkas: `ONLINE`, `OFFLINE`, `SIMULASI DEMO`, `MEMINDAI...`, atau `MENGHUBUNGKAN...` (tanpa teks panjang yang memakan ruang).
+- **Visualisasi Hardware Realistis ESP32 (`RealisticEsp32Board`)**:
+  - Menghadirkan visualisasi board 30-pin ESP32-WROOM-32 DevKit V1 yang realistis (Micro-USB/CP2102, pelat metal shielding can RF Espressif, antena tembaga meander, tombol tactile EN & BOOT, dan pinout GPIO autentik).
+- **Konsistensi Visualisasi Wiring & Diagram Simulator Lintas Platform**:
+  - Visualizer skema wiring per langkah (`StepWiringVisualCanvas`) dan simulator pcb kumulatif (`FullCumulativeCircuitSimulator`) kini berganti secara instan dan konsisten mengikuti platform yang dipilih:
+    - **STM32**: Menggunakan `RealisticWeActBoard` dengan pinout STM32WB55 (PA0 pulser, PA1/PA2 gate, PA4 TPS, PB0 VBAT, dll.) dan komparator pulser LM339.
+    - **ESP32**: Menggunakan `RealisticEsp32Board` dengan pinout ESP32 (GPIO4 pulser via PC817 opto, GPIO25 center gate, GPIO26 side gate, GPIO36/VP TPS ADC1_CH0, GPIO39/VN Temp ADC1_CH3, GPIO33 VBAT ADC1_CH5, dll.).
+- **Label Platform Ringkas & Jelas**:
+  - Seluruh antarmuka beralih ke penamaan ringkas "STM32" atau "ESP32" tanpa teks panjang yang memecah baris.
 
 ### Versi 8.2.0 (Penyempurnaan UI Terstruktur, Telemetri Status Bar, & Diagram Pin Presisi)
 - **Status Bar & Top Bar Rapi & Proporsional**:
