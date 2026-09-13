@@ -170,7 +170,7 @@ fun QuickSetupGuideScreen(viewModel: CdiViewModel) {
             1 -> HarnessJ1View(viewModel, j1ConfirmedMap)
             2 -> McuHeaderView(viewModel)
             3 -> BomShoppingView()
-            4 -> ModularGuideView()
+            4 -> ModularGuideView(selectedPlatform)
         }
     }
 }
@@ -1460,7 +1460,7 @@ private fun BomShoppingView() {
 }
 
 @Composable
-private fun ModularGuideView() {
+private fun ModularGuideView(selectedPlatform: McuPlatform) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -1520,18 +1520,33 @@ private fun ModularGuideView() {
                             .background(SurfacePanel, RoundedCornerShape(6.dp))
                             .padding(8.dp)
                     ) {
+                        val isStm = selectedPlatform == McuPlatform.STM32WB55
                         Text(
-                            text = "KONEKSI KABEL:\n" +
-                                    "• Sisi Input:\n" +
-                                    "  - IN1+ : Kabel tambahan J1.9 (OEM Center) via Resistor 47kΩ 2W\n" +
-                                    "  - IN1- : Ground Motor / Frame\n" +
-                                    "  - IN2+ : Kabel tambahan J1.8 (OEM Side) via Resistor 47kΩ 2W\n" +
-                                    "  - IN2- : Ground Motor / Frame\n" +
-                                    "• Sisi Output (Mikro):\n" +
-                                    "  - VCC  : 3.3V WeAct\n" +
-                                    "  - GND  : GND WeAct (GND_STAR)\n" +
-                                    "  - OUT1 : PB3 STM32WB55 (OEM Center Capture)\n" +
-                                    "  - OUT2 : PB4 STM32WB55 (OEM Side Capture)",
+                            text = if (isStm) {
+                                "KONEKSI KABEL (STM32WB55):\n" +
+                                "• Sisi Input:\n" +
+                                "  - IN1+ : Kabel tambahan J1.9 (OEM Center) > Resistor 47kΩ 2W\n" +
+                                "  - IN1- : Ground Motor / Frame (J1.11)\n" +
+                                "  - IN2+ : Kabel tambahan J1.8 (OEM Side) > Resistor 47kΩ 2W\n" +
+                                "  - IN2- : Ground Motor / Frame (J1.11)\n" +
+                                "• Sisi Output (Mikro WeAct):\n" +
+                                "  - VCC  : 3.3V WeAct (H_TOP.3/4)\n" +
+                                "  - GND  : GND WeAct (GND_STAR H_TOP.1)\n" +
+                                "  - OUT1 : PB3 STM32 (H_TOP.9) > OEM Center Capture\n" +
+                                "  - OUT2 : PB4 STM32 (H_TOP.8) > OEM Side Capture"
+                            } else {
+                                "KONEKSI KABEL (ESP32-WROOM-32D):\n" +
+                                "• Sisi Input:\n" +
+                                "  - IN1+ : Kabel tambahan J1.9 (OEM Center) > Resistor 47kΩ 2W\n" +
+                                "  - IN1- : Ground Motor / Frame (J1.11)\n" +
+                                "  - IN2+ : Kabel tambahan J1.8 (OEM Side) > Resistor 47kΩ 2W\n" +
+                                "  - IN2- : Ground Motor / Frame (J1.11)\n" +
+                                "• Sisi Output (Mikro ESP32):\n" +
+                                "  - VCC  : 3.3V ESP32 (Pin 1)\n" +
+                                "  - GND  : GND ESP32 (Pin 14 / Pin 20)\n" +
+                                "  - OUT1 : GPIO16 ESP32 (Pin 31) > OEM Center Capture\n" +
+                                "  - OUT2 : GPIO17 ESP32 (Pin 30) > OEM Side Capture"
+                            },
                             fontSize = 9.5.sp,
                             fontFamily = FontFamily.Monospace,
                             color = RacingLime,
@@ -1571,18 +1586,33 @@ private fun ModularGuideView() {
                             .background(SurfacePanel, RoundedCornerShape(6.dp))
                             .padding(8.dp)
                     ) {
+                        val isStm = selectedPlatform == McuPlatform.STM32WB55
                         Text(
-                            text = "KONEKSI KABEL:\n" +
-                                    "• Sisi Kontrol:\n" +
-                                    "  - VCC : 5.0V (dari LM2596)\n" +
-                                    "  - GND : GND_STAR WeAct\n" +
-                                    "  - IN  : Pin PB5 STM32WB55 langsung (Active-High/Low setting jumper)\n" +
-                                    "• Sisi Kontak Relay (Terminal Blok):\n" +
-                                    "  - COM : Pin J1.7 (Relay Kipas Radiator Motor)\n" +
-                                    "  - NO  : GND Motor / Frame\n" +
-                                    "  - NC  : Dibiarkan terbuka\n" +
-                                    "• Kontinuitas Daya OEM Learn:\n" +
-                                    "  - LM2596 Step-Down 5V menjaga WeAct STM32 tetap ON saat mesin mati sesaat agar data rekaman OEM Learn di RAM tidak hilang sebelum di-commit.",
+                            text = if (isStm) {
+                                "KONEKSI KABEL (STM32WB55):\n" +
+                                "• Sisi Kontrol:\n" +
+                                "  - VCC : 5.0V (dari LM2596 OUT+)\n" +
+                                "  - GND : GND_STAR WeAct (H_TOP.1)\n" +
+                                "  - IN  : Pin PB5 STM32WB55 (H_TOP.7) langsung\n" +
+                                "• Sisi Kontak Relay (Terminal Blok):\n" +
+                                "  - COM : Pin J1.7 (Relay Kipas Radiator Motor)\n" +
+                                "  - NO  : GND Motor / Frame\n" +
+                                "  - NC  : Dibiarkan terbuka\n" +
+                                "• Kontinuitas Daya OEM Learn:\n" +
+                                "  - LM2596 Step-Down 5V menjaga WeAct STM32 tetap ON saat mesin mati sesaat agar data rekaman OEM Learn di RAM tidak hilang sebelum di-commit."
+                            } else {
+                                "KONEKSI KABEL (ESP32-WROOM-32D):\n" +
+                                "• Sisi Kontrol:\n" +
+                                "  - VCC : 5.0V (dari LM2596 OUT+)\n" +
+                                "  - GND : GND_STAR ESP32 (Pin 14 / Pin 20)\n" +
+                                "  - IN  : Pin GPIO13 ESP32 (Pin 15) langsung\n" +
+                                "• Sisi Kontak Relay (Terminal Blok):\n" +
+                                "  - COM : Pin J1.7 (Relay Kipas Radiator Motor)\n" +
+                                "  - NO  : GND Motor / Frame\n" +
+                                "  - NC  : Dibiarkan terbuka\n" +
+                                "• Kontinuitas Daya OEM Learn:\n" +
+                                "  - LM2596 Step-Down 5V menjaga ESP32 tetap ON saat mesin mati sesaat agar data rekaman OEM Learn di RAM tidak hilang sebelum di-commit."
+                            },
                             fontSize = 9.5.sp,
                             fontFamily = FontFamily.Monospace,
                             color = RacingLime,

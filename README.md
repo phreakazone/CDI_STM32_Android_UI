@@ -416,6 +416,30 @@ Menu **Pinout MCU** dalam aplikasi menyediakan visualisasi ganda (**Mode Tabel 2
 - **Label Platform Ringkas & Jelas**:
   - Seluruh antarmuka beralih ke penamaan ringkas "STM32" atau "ESP32" tanpa teks panjang yang memecah baris.
 
+### Versi 8.3.1 (Perapihan Total Diagram Wiring & Kesiapan Produksi Dual-Platform STM32 & ESP32)
+- **Standardisasi Simbol Panah Diagram Wiring (`>`)**:
+  - Mengganti seluruh karakter panah visual grafik (`▶`) yang rentan merusak lebar kolom dan menyebabkan teks menyebar/berantakan di layar kecil dengan simbol ASCII panah standar `>` (misalnya: `Kabel J1.12 > Resistor 47k > PC817 Pin 1`).
+  - Mengaktifkan kontainer horizontal scroll (`horizontalScroll`) pada seluruh kotak diagram wiring ASCII skematik (Modul PC817 4-Channel, Rangkaian Diskrit PC817 Dual-Koil, Voltage Divider BAT54S Clamp, dan Power Supply Step-Down Buck Converter) sehingga diagram tetap lurus, rapi, dan tidak terpotong atau wrap sembarangan pada layar ponsel potret.
+- **Validasi Keakuratan Jalur Wiring Dinamis Dual-Platform (STM32 & ESP32)**:
+  - Memastikan seluruh jalur pengkabelan, pin input/output, dan nama header secara dinamis beradaptasi sesuai mikrokontroler yang dipilih:
+    - **STM32WB55 (WeAct 35-Pin)**:
+      - Pulser Pickup: `PA0 (H_BOTTOM.15)`
+      - Ignition Gates: `PA1 (H_BOTTOM.14)` (Center) & `PA2 (H_BOTTOM.13)` (Side)
+      - OEM Learn Inputs: `PB3 (H_TOP.9)` (Center Capture) & `PB4 (H_TOP.8)` (Side Capture)
+      - Fan Relay Driver: `PB5 (H_TOP.7)`
+      - Power: `5V (H_BOTTOM.2)` & `GND_STAR (H_BOTTOM.1 / H_TOP.1)`
+    - **ESP32-WROOM-32D (38-Pin)**:
+      - Pulser Pickup: `GPIO4 (Pin 32)`
+      - Ignition Gates: `GPIO25 (Pin 9)` (Center) & `GPIO26 (Pin 10)` (Side)
+      - OEM Learn Inputs: `GPIO16 (Pin 31)` (Center Capture) & `GPIO17 (Pin 30)` (Side Capture)
+      - Fan Relay Driver: `GPIO13 (Pin 15)`
+      - Power: `5V/VIN (Pin 19)` & `GND (Pin 14 / Pin 20)`
+  - Baik pada Mode Demo (simulasi) maupun Mode Nyata (koneksi BLE ke hardware), seluruh jalur dan tahapan alur keselamatan dipastikan 100% konsisten dan bebas galat.
+- **Kesiapan Produksi (Production Ready Verification)**:
+  - Kompilasi build berhasil tanpa error (`compile_applet` PASS).
+  - Seluruh rangkaian unit test berhasil diverifikasi (`testDebugUnitTest` PASS).
+  - Konfigurasi rahasia build (`.env.example` & `BuildConfig`) dibersihkan sesuai standar keamanan produksi.
+
 ### Versi 8.3.0 (Ready Produksi: Pinout Dual-Platform STM32 & ESP32, Tabel 2-Kolom Presisi, & Visualisasi Fisik Board Otentik)
 - **Desain Bebas Gap Ruang Kosong (Zero-Gap Layout Architecture)**:
   - Mengeliminasi gap ruang kosong vertikal berlebih pada menu Pinout MCU; menyederhanakan header menjadi compact platform bar yang ramping (~40.dp) dan menyatukan filter chips fungsional.
